@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "443181818060",
+    "project_id": "miniproject-dc00d",
+    "storage_bucket": "miniproject-dc00d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:443181818060:android:9c8e268ec8860ea7db2269",
+        "android_client_info": {
+          "package_name": "com.chefz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "443181818060-9djm2l112dm5kkvvg23iorqjl4qdgfpm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOeF7SNaEDxTt3s2MwFN7v8SExve7p5AI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "443181818060-9djm2l112dm5kkvvg23iorqjl4qdgfpm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
