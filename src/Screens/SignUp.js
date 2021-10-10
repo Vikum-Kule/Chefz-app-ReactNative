@@ -5,11 +5,10 @@ import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
 
 
-
-const LoginScreen = ({navigation}) => {
+const SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-
+  const [username, setUsername] = useState();
 //   const {login, googleLogin, fbLogin} = useContext(AuthContext);
 
   return (
@@ -19,6 +18,16 @@ const LoginScreen = ({navigation}) => {
         style={styles.logo}
       />
       <Text style={styles.text}>Chefz</Text>
+        
+      <FormInput
+        labelValue={username}
+        onChangeText={(name) => setUsername(name)}
+        placeholderText="Username"
+        iconType="user"
+        keyboardType="email-address"
+        autoCapitalize="none"
+        autoCorrect={false}
+      />
 
       <FormInput
         labelValue={email}
@@ -39,13 +48,10 @@ const LoginScreen = ({navigation}) => {
       />
 
       <FormButton
-        buttonTitle="Sign In"
-        onPress={() => login(email, password)}
+        buttonTitle="Signup"
+        onPress={() => signup(username,email, password)}
       />
 
-      <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
-        <Text style={styles.navButtonText}>Forgot Password?</Text>
-      </TouchableOpacity>
 
       {Platform.OS === 'android' ? (
         <View>
@@ -69,16 +75,16 @@ const LoginScreen = ({navigation}) => {
 
       <TouchableOpacity
         style={styles.forgotButton}
-        onPress={()=> navigation.navigate("SignUp")}>
+        onPress={()=> navigation.navigate("Login")}>
         <Text style={styles.navButtonText}>
-          Don't have an acount? Create here
+          Don you have already acount? Login
         </Text>
       </TouchableOpacity>
     </ScrollView>
   );
 };
 
-export default LoginScreen;
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
     container: {
