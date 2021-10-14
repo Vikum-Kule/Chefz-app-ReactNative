@@ -3,6 +3,7 @@ import { View, Text, Button,Image,TouchableOpacity, Platform, ScrollView, StyleS
 import FormInput from '../components/Forminput';
 import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
+import {AuthContext} from '../Auth/AuthProvider'
 
 
 const SignUpScreen = ({navigation}) => {
@@ -10,6 +11,8 @@ const SignUpScreen = ({navigation}) => {
   const [password, setPassword] = useState();
   const [username, setUsername] = useState();
 //   const {login, googleLogin, fbLogin} = useContext(AuthContext);
+
+  const { register} = useContext(AuthContext)
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -31,7 +34,7 @@ const SignUpScreen = ({navigation}) => {
 
       <FormInput
         labelValue={email}
-        onChangeText={(userEmail) => setEmail(userEmail)}
+        onChangeText={(userEmail) => setEmail(userEmail.trim())}
         placeholderText="Email"
         iconType="envelope"
         keyboardType="email-address"
@@ -49,7 +52,7 @@ const SignUpScreen = ({navigation}) => {
 
       <FormButton
         buttonTitle="Signup"
-        onPress={() => signup(username,email, password)}
+        onPress={() => register(username,email, password)}
       />
 
 

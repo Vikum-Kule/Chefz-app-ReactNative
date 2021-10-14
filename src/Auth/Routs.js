@@ -31,4 +31,5 @@ const Routs = () => {
             {user ? <AppStack/> : <AuthStack />}
         </NavigationContainer>
     );
-}
+};
+export default Routs;
