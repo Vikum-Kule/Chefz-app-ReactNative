@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity} from 'react-native';
 import FormButton from "../components/FormButton";
-import { Container } from "../styles/homeStyles";
+import { Container, UserInfo, UserImg, Card, UserName, UserInfoText, PostDate, PostTitle, PostImg } from "../styles/homeStyles";
 import Swiper from 'react-native-swiper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -9,6 +9,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const HomeScreen = () =>{
     return (
         <Container>
+            <View style={styles.top}>
+                <Text style={styles.toptxt}>What are you going to cook today?</Text>
+            </View>
             <View style={styles.sliderContainer}>
             <Swiper height={150} autoplay activeDotColor="#f45c43">
                 <View style={styles.slide}>
@@ -72,6 +75,21 @@ const HomeScreen = () =>{
                     </TouchableOpacity>
                 </ScrollView> 
             </View>
+            <ScrollView style={styles.scrollCards}>
+                <Card>
+                    <UserInfo>
+                        <UserImg source={require('../assets/user.png')} />
+                        <UserInfoText>
+                            <UserName>Jenny doe</UserName>
+                            <PostDate>2021-10-15</PostDate>
+                        </UserInfoText>
+                    </UserInfo>
+                    <PostTitle>
+                        Special Rice Recipe
+                    </PostTitle>
+                    <PostImg source={require('../assets/banner/banner_1.jpeg')} />
+                </Card>
+            </ScrollView>
             
         </Container>
     );
@@ -83,6 +101,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
       },
+
+      top:{
+        height:40,
+        alignItems:"center",
+      },
+      toptxt:{
+        fontSize:20,
+        fontWeight: "800",
+        opacity: 0.5
+      },
+
       sliderContainer: {
         height: 150,
         width: '100%',
@@ -137,6 +166,9 @@ const styles = StyleSheet.create({
           fontSize:15,
           fontWeight:"bold",
           alignSelf:"center"
+      },
+      scrollCards:{
+          width:"100%"
       }
 
 });
