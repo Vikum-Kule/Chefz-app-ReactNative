@@ -3,6 +3,7 @@ import { View, Text, Button,Image,TouchableOpacity, Platform, ScrollView, StyleS
 import FormInput from '../components/Forminput';
 import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
+import {AuthContext} from '../Auth/AuthProvider'
 
 
 
@@ -10,7 +11,7 @@ const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-//   const {login, googleLogin, fbLogin} = useContext(AuthContext);
+const {login} = useContext(AuthContext);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

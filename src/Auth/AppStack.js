@@ -8,7 +8,7 @@ import Home from '../Screens/Home';
 import AddPostScreen from '../Screens/AddPostScreen';
 import ProfileScreen from '../Screens/ProfileScreen';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Swiper from 'react-native-swiper';
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

@@ -1,12 +1,97 @@
-import React, {useContext} from "react";
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity} from 'react-native';
+import React, {useContext, useState, useEffect} from "react";
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, FlatList} from 'react-native';
 import FormButton from "../components/FormButton";
 import { Container, UserInfo, UserImg, Card, UserName, UserInfoText, PostDate, PostTitle, PostImg } from "../styles/homeStyles";
 import Swiper from 'react-native-swiper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import PostCard from "../components/PostCard";
+import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
 
-const HomeScreen = () =>{
+
+const Posts = [
+    {
+        id: '1',
+        userName: 'Jon Doe',
+        userImg: require('../assets/user.png'),
+        postTime: '2021-10-10',
+        postTitle: 'Special Rice Recipe',
+        postImg: require('../assets/banner/banner_1.jpeg')
+    },
+    {
+        id: '2',
+        userName: 'Samanthi',
+        userImg: require('../assets/user.png'),
+        postTime: '2021-10-07',
+        postTitle: 'Ice cream recipe',
+        postImg: require('../assets/banner/banner_2.jpg')
+    },
+    {
+        id: '3',
+        userName: 'Kanthi',
+        userImg: require('../assets/user.png'),
+        postTime: '2021-10-08',
+        postTitle: 'How to make milkshake',
+        postImg: require('../assets/banner/banner_3.jpg')
+    }
+];
+
+const HomeScreen = ({navigation}) =>{
+    const [posts, setPosts] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const fetchPosts = async () => {
+        try {
+          const list = [];
+    
+          await firestore()
+            .collection('posts')
+            .orderBy('postTime', 'desc')
+            .get()
+            .then((querySnapshot) => {
+              // console.log('Total Posts: ', querySnapshot.size);
+    
+              querySnapshot.forEach((doc) => {
+                const {
+                    userId,
+                    postTitle,
+                    postImg,
+                    postTime,
+                    category,
+                    description,
+                } = doc.data();
+                list.push({
+                  id: doc.id,
+                  userId,
+                  userName: 'Test Name',
+                  userImg:
+                    'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+                  postTime: "2021-10-14",
+                  postTitle,
+                  postImg,
+                  category,
+                  description,
+                });
+              });
+            });
+    
+          setPosts(list);
+    
+          if (loading) {
+            setLoading(false);
+          }
+    
+          console.log('Posts: ', posts);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+
+      useEffect(() => {
+        fetchPosts();
+      }, []);
+
     return (
         <Container>
             <View style={styles.top}>
@@ -75,21 +160,23 @@ const HomeScreen = () =>{
                     </TouchableOpacity>
                 </ScrollView> 
             </View>
-            <ScrollView style={styles.scrollCards}>
-                <Card>
-                    <UserInfo>
-                        <UserImg source={require('../assets/user.png')} />
-                        <UserInfoText>
-                            <UserName>Jenny doe</UserName>
-                            <PostDate>2021-10-15</PostDate>
-                        </UserInfoText>
-                    </UserInfo>
-                    <PostTitle>
-                        Special Rice Recipe
-                    </PostTitle>
-                    <PostImg source={require('../assets/banner/banner_1.jpeg')} />
-                </Card>
-            </ScrollView>
+            <FlatList 
+                    data={posts}
+                    renderItem={
+                        ({item})=> <PostCard item={item} />
+                    }
+                    style={styles.scrollCards}
+                    keyExtractor={item=> item.id}
+                />
+            {/* <ScrollView style={styles.scrollCards}>
+                <FlatList 
+                    data={Posts}
+                    renderItem={
+                        ({item})=> <PostCard item={item} />
+                    }
+                    keyExtractor={item=> item.id}
+                />
+            </ScrollView> */}
             
         </Container>
     );
