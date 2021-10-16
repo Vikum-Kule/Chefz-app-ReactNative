@@ -46,6 +46,10 @@ export default ImageProgress;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#e1e4e8',
+    width: "100%",
+    height: 220,
+    borderRadius: 8,
+    
   },
   imageOverlay: {
     position: 'absolute',

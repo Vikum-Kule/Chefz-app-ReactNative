@@ -1,46 +1,21 @@
 import React, {useContext, useState, useEffect} from "react";
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, FlatList} from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, FlatList, Alert} from 'react-native';
 import FormButton from "../components/FormButton";
 import { Container, UserInfo, UserImg, Card, UserName, UserInfoText, PostDate, PostTitle, PostImg } from "../styles/homeStyles";
 import Swiper from 'react-native-swiper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import PostCard from "../components/PostCard";
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 
 
-const Posts = [
-    {
-        id: '1',
-        userName: 'Jon Doe',
-        userImg: require('../assets/user.png'),
-        postTime: '2021-10-10',
-        postTitle: 'Special Rice Recipe',
-        postImg: require('../assets/banner/banner_1.jpeg')
-    },
-    {
-        id: '2',
-        userName: 'Samanthi',
-        userImg: require('../assets/user.png'),
-        postTime: '2021-10-07',
-        postTitle: 'Ice cream recipe',
-        postImg: require('../assets/banner/banner_2.jpg')
-    },
-    {
-        id: '3',
-        userName: 'Kanthi',
-        userImg: require('../assets/user.png'),
-        postTime: '2021-10-08',
-        postTitle: 'How to make milkshake',
-        postImg: require('../assets/banner/banner_3.jpg')
-    }
-];
+
 
 const HomeScreen = ({navigation}) =>{
     const [posts, setPosts] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const [deleted, setDeleted] = useState(false);
     const fetchPosts = async () => {
         try {
           const list = [];
@@ -60,6 +35,8 @@ const HomeScreen = ({navigation}) =>{
                     postTime,
                     category,
                     description,
+                    favorite,
+
                 } = doc.data();
                 list.push({
                   id: doc.id,
@@ -72,6 +49,7 @@ const HomeScreen = ({navigation}) =>{
                   postImg,
                   category,
                   description,
+                  favorite,
                 });
               });
             });
@@ -91,6 +69,101 @@ const HomeScreen = ({navigation}) =>{
       useEffect(() => {
         fetchPosts();
       }, []);
+
+      useEffect(() => {
+        fetchPosts();
+        setDeleted(false);
+      }, [deleted]);
+
+      const addFavorite = (postId, value)=>{
+        console.log(postId+" "+ value);
+        firestore()
+          .collection('posts')
+          .doc(postId)
+          .update({'favorite': !value})
+          .then(() => {
+            if (!value){
+              Alert.alert(
+                'Post added to favorite list',
+              );
+            }
+            else{
+              Alert.alert(
+                'Post Removed from favorite list',
+                
+              );
+            }
+            
+            fetchPosts();
+          })
+          .catch((e) => console.log('something went wrong.', e));
+      }
+
+      const handleDelete = (postId) => {
+        Alert.alert(
+          'Delete post',
+          'Are you sure?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed!'),
+              style: 'cancel',
+            },
+            {
+              text: 'Confirm',
+              onPress: () => deletePost(postId),
+            },
+          ],
+          {cancelable: false},
+        );
+      };
+    
+      const deletePost = (postId) => {
+        console.log('Current Post Id: ', postId);
+    
+        firestore()
+          .collection('posts')
+          .doc(postId)
+          .get()
+          .then((documentSnapshot) => {
+            if (documentSnapshot.exists) {
+              const {postImg} = documentSnapshot.data();
+    
+              if (postImg != null) {
+                const storageRef = storage().refFromURL(postImg);
+                const imageRef = storage().ref(storageRef.fullPath);
+    
+                imageRef
+                  .delete()
+                  .then(() => {
+                    console.log(`${postImg} has been deleted successfully.`);
+                    deleteFirestoreData(postId);
+                  })
+                  .catch((e) => {
+                    console.log('Error while deleting the image. ', e);
+                  });
+                // If the post image is not available
+              } else {
+                deleteFirestoreData(postId);
+              }
+            }
+          });
+      };
+    
+      const deleteFirestoreData = (postId) => {
+        firestore()
+          .collection('posts')
+          .doc(postId)
+          .delete()
+          .then(() => {
+            Alert.alert(
+              'Post deleted!',
+              'Your post has been deleted successfully!',
+            );
+            setDeleted(true);
+          })
+          .catch((e) => console.log('Error deleting posst.', e));
+      };
 
     return (
         <Container>
@@ -133,27 +206,52 @@ const HomeScreen = ({navigation}) =>{
                 <ScrollView style={styles.scrollView} 
                     horizontal={true}
                 >
-                    <TouchableOpacity style={styles.categorybtn} onPress={()=>{}}>
+                    <TouchableOpacity style={styles.categorybtn} 
+                    onPress={() => {
+                        /* 1. Navigate to the Details route with params */
+                        navigation.navigate('CategoryView', {
+                          category: 'Rice',
+                        });}}>
                         <View style={styles.category}>
                             <Text style={styles.Categorytext}>Rice</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.categorybtn} onPress={()=>{}}>
+                    <TouchableOpacity style={styles.categorybtn}
+                     onPress={() => {
+                        /* 1. Navigate to the Details route with params */
+                        navigation.navigate('CategoryView', {
+                          category: 'Noodls',
+                        });}}>
                         <View style={styles.category}>
                             <Text style={styles.Categorytext}>Noodls</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.categorybtn} onPress={()=>{}}>
+                    <TouchableOpacity style={styles.categorybtn} 
+                    onPress={() => {
+                        /* 1. Navigate to the Details route with params */
+                        navigation.navigate('CategoryView', {
+                          category: 'Desserts',
+                        });}}>
                         <View style={styles.category}>
                             <Text style={styles.Categorytext}>Desserts</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.categorybtn} onPress={()=>{}}>
+                    <TouchableOpacity style={styles.categorybtn} 
+                    onPress={() => {
+                        /* 1. Navigate to the Details route with params */
+                        navigation.navigate('CategoryView', {
+                          category: 'Juices',
+                        });}}>
                         <View style={styles.category}>
                             <Text style={styles.Categorytext}>Juices</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.categorybtn} onPress={()=>{}}>
+                    <TouchableOpacity style={styles.categorybtn} 
+                    onPress={() => {
+                        /* 1. Navigate to the Details route with params */
+                        navigation.navigate('CategoryView', {
+                          category: 'Other',
+                        });}}>
                         <View style={styles.category}>
                             <Text style={styles.Categorytext}>Other</Text>
                         </View>
@@ -163,7 +261,21 @@ const HomeScreen = ({navigation}) =>{
             <FlatList 
                     data={posts}
                     renderItem={
-                        ({item})=> <PostCard item={item} />
+                        ({item})=> 
+                        <TouchableOpacity
+                        onPress={() => {
+                            /* 1. Navigate to the Details route with params */
+                            navigation.navigate('PostView', {
+                                item:item
+                            });}}
+                        >
+                            <PostCard 
+                            item={item}
+                            onDelete={handleDelete}
+                            addFavorite={addFavorite}
+                            />
+                        </TouchableOpacity>
+                        
                     }
                     style={styles.scrollCards}
                     keyExtractor={item=> item.id}

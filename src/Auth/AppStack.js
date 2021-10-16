@@ -6,8 +6,11 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Home from '../Screens/Home';
 import AddPostScreen from '../Screens/AddPostScreen';
+import CategoryView from '../Screens/CategoryView';
 import ProfileScreen from '../Screens/ProfileScreen';
+import PostView from '../Screens/PostView';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FavoriteList from '../Screens/FavoriteList';
 
 
 const Stack = createStackNavigator();
@@ -31,6 +34,60 @@ const Feed = ({navigation}) => (
           shadowColor: '#fff',
           elevation: 0,
         },
+        headerRight: () => (
+          <View style={{marginRight: 10}}>
+            <FontAwesome5.Button
+              name="heart"
+              size={22}
+              backgroundColor="#f45c43"
+              color="#fff"
+              onPress={() => navigation.navigate('Favorite')}
+            />
+          </View>
+        ),
+      }}
+    />
+    <Stack.Screen
+      name="CategoryView"
+      component={CategoryView}
+      options={{
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#fff',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
+          fontWeight: "bold",
+        },
+        headerStyle: {
+          backgroundColor:'#f45c43',
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="Favorite"
+      component={FavoriteList}
+      options={{
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#fff',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
+          fontWeight: "bold",
+        },
+        headerStyle: {
+          backgroundColor:'#f45c43',
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="PostView"
+      component={PostView}
+      options={{
+        headerShown: false,
       }}
     />
     <Stack.Screen
