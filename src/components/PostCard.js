@@ -86,10 +86,6 @@ const PostCard = ({item, onDelete, addFavorite}) => {
                         <Divide />)}
 
         <InteractionWrapper>
-        <Interaction active={favorite} onPress={() => addFavorite(item.id, favorite)}>
-        <Ionicons name={likeIcon} size={25} color={likeIconColor} />
-          {/* <InteractionText active={item.liked}>{likeText}</InteractionText> */}
-        </Interaction>
         {/* <Interaction>
           <Ionicons name="md-chatbubble-outline" size={25} />
           <InteractionText>{commentText}</InteractionText>

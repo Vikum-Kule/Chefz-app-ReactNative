@@ -11,14 +11,14 @@ const OnboardScreen = ({navigation}) => {
                 {
                 backgroundColor: '#fff',
                 image: <Image source={require('../assets/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg')} />,
-                title: 'Onboarding 1',
-                subtitle: 'Done with React Native Onboarding Swiper',
+                title: 'Try Best Recipes',
+                
                 },
                 {
                     backgroundColor: '#fff',
                     image: <Image source={require('../assets/gnocchi-with-prawns-and-chorizo-taste-152036-2.jpg')} />,
-                    title: 'Onboarding 2',
-                    subtitle: 'Done with React Native Onboarding Swiper',
+                    title: 'Make your life happy with healthy delicious foods',
+                    
                 },
             ]}
 />
