@@ -27,37 +27,40 @@ import ImageProgress from './ImageProgress';
 const PostCard = ({item, onDelete, addFavorite}) => {
     const {user, logout} = useContext(AuthContext);
     const [userData, setUserData] = useState(null);
+    const [favorite, setFavorite] = useState(false);
+    const likeIcon = favorite ? 'heart' : 'heart-outline';
+    const likeIconColor = favorite ? '#2e64e5' : '#333';
+  
+    const checkFavorite = async () => {
+      try {
+        
+        console.log("Hello");
+        await firestore()
+          .collection('favorite')
+          .where('userId', '==', user.uid)
+          .where('postId', '==', item.id)
+          .get()
+          .then((querySnapshot) => {
+              if(!querySnapshot.empty){
 
-    const likeIcon = item.favorite ? 'heart' : 'heart-outline';
-    const likeIconColor = item.favorite ? '#2e64e5' : '#333';
-  
-    // const checkFavorite = async () => {
-    //   try {
-    //     const list = [];
-    //     console.log("Hello");
-    //     await firestore()
-    //       .collection('favorite')
-    //       .where('postId', '==', item.id && 'userId', '==', user.uid)
-    //       .get()
-    //       .then((querySnapshot) => {
-    //           if(!querySnapshot.empty){
-    //             console.log("Exist");
-    //               setFavorite(true);
-    //           }
-    //           else{
-    //               setFavorite(false);
-    //           }
-    //       });
+                console.log("Exist"+ item.id);
+                setFavorite(true);
+              }
+              else{
+                console.log("not");
+                setFavorite(false);
+              }
+          });
   
   
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // };
+      } catch (e) {
+        console.log(e);
+      }
+    };
 
-    // useEffect(() => {
-    //   checkFavorite();
-    // }, []);
+    useEffect(() => {
+      checkFavorite();
+    }, []);
   
   
     return(
@@ -83,7 +86,7 @@ const PostCard = ({item, onDelete, addFavorite}) => {
                         <Divide />)}
 
         <InteractionWrapper>
-        <Interaction active={item.favorite} onPress={() => addFavorite(item.id, item.favorite)}>
+        <Interaction active={favorite} onPress={() => addFavorite(item.id, favorite)}>
         <Ionicons name={likeIcon} size={25} color={likeIconColor} />
           {/* <InteractionText active={item.liked}>{likeText}</InteractionText> */}
         </Interaction>

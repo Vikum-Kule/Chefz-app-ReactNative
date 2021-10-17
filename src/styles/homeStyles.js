@@ -49,8 +49,10 @@ export const PostDate = styled.Text`
 `;
 
 export const PostTitle = styled.Text`
-    font-size: 14px;
+    font-size: 16px;
     font-family:'Lato-Regular';
+    margin-left:15px;
+
 `;
 
 export const PostImg = styled.Image`
@@ -59,6 +61,15 @@ export const PostImg = styled.Image`
     margin-top:15px;
     border-radius: 8px;
     
+`;
+
+
+export const InputField = styled.TextInput`
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    text-align: left;
+    width:90%;
 `;
 
 export const Divider = styled.View`
@@ -90,4 +101,18 @@ export const InteractionText = styled.Text`
     color: ${props => props.active ? '#2e64e5' : '#333'};
     margin-top: 5px;
     margin-left: 5px;
+`;
+export const SubmitBtn = styled.TouchableOpacity`
+    flex-direction: row;
+    justify-content: center;
+    background-color: #2e64e515;
+    border-radius: 5px;
+    padding: 10px 25px;
+`;
+
+export const SubmitBtnText = styled.Text`
+    font-size: 18px;
+    font-family: 'Lato-Bold';
+    font-weight: bold;
+    color: #2e64e5;
 `;

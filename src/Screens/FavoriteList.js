@@ -14,6 +14,8 @@ const FavoriteList = ({navigation}) =>{
     const [posts, setPosts] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    
+
     const fetchPosts = async () => {
         try {
           const list = [];

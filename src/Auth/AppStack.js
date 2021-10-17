@@ -187,13 +187,6 @@ const CutomButton =({children, onPress})=>(
 
 const AppStack = () => {
 
-  const getTabBarVisibility = (route) => {
-    const routeName = route.state
-      ? route.state.routes[route.state.index].name
-      : '';
-
-    return true;
-  };
 
 
     return(
@@ -207,7 +200,7 @@ const AppStack = () => {
         tabBarShowLabel:false,
         tabBarStyle:{
           position: 'absolute',
-          bottom:5,
+          bottom:0,
           left:20,
           right:20,
           elevation:0,

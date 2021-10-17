@@ -115,26 +115,6 @@ const HomeScreen = ({navigation}) =>{
         }
         
 
-        // firestore()
-        //   .collection('posts')
-        //   .doc(postId)
-        //   .update({'favorite': !value})
-        //   .then(() => {
-        //     if (!value){
-        //       Alert.alert(
-        //         'Post added to favorite list',
-        //       );
-        //     }
-        //     else{
-        //       Alert.alert(
-        //         'Post Removed from favorite list',
-                
-        //       );
-        //     }
-            
-        //     fetchPosts();
-        //   })
-        //   .catch((e) => console.log('something went wrong.', e));
       }
 
       const handleDelete = (postId) => {
@@ -405,6 +385,7 @@ const styles = StyleSheet.create({
           alignSelf:"center"
       },
       scrollCards:{
+        marginBottom:50,
           width:"100%"
       }
 
