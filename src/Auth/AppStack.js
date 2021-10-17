@@ -12,6 +12,7 @@ import PostView from '../Screens/PostView';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FavoriteList from '../Screens/FavoriteList';
 import EditProfile from '../Screens/EditProfile';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const Stack = createStackNavigator();
@@ -164,6 +165,25 @@ const Profile = ({navigation}) => (
   </Stack.Navigator>
 );
 
+const CutomButton =({children, onPress})=>(
+  <TouchableOpacity
+    style={{
+      top:-30,
+      justifyContent:"center",
+      alignItems:"center",
+    }}
+    onPress={onPress}
+  >
+    <View style={{
+      width:50,
+      height:50,
+      borderRadius: 45,
+      backgroundColor: "#f45c43",
+    }}>
+      {children}
+    </View>
+  </TouchableOpacity>
+);
 
 const AppStack = () => {
 
@@ -179,11 +199,22 @@ const AppStack = () => {
     return(
       <Tab.Navigator
         // tabBarOptions={{
-        //   s
+         
         // }}
 
       screenOptions={{
-        activeTintColor: '#f45c43',
+        tabBarActiveTintColor: '#f45c43',
+        tabBarShowLabel:false,
+        tabBarStyle:{
+          position: 'absolute',
+          bottom:5,
+          left:20,
+          right:20,
+          elevation:0,
+          backgroundColor:"#ffffff",
+          borderRadius: 15,
+          height:51
+        }
       }}>
       <Tab.Screen
         name="Home"
@@ -209,13 +240,13 @@ const AppStack = () => {
           // tabBarVisible: getTabBarVisibility(route),
           tabBarIcon: ({color, size}) => (
             <Ionicons
-              name="chatbox-ellipses-outline"
+              name="add-circle-outline"
               color={color}
-              size={size}
+              size={50}
             />
           ),
         })}
-      />
+      /> 
       <Tab.Screen
         name="Profile"
         component={Profile}
