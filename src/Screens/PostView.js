@@ -249,6 +249,10 @@ const PostView = ({route}) => {
             <SubmitBtn onPress={submitComment}>
             <SubmitBtnText>Add</SubmitBtnText>
           </SubmitBtn>
+          <View style={{ height: 20,}}></View>
+          <SubmitBtn onPress={showModel}>
+            <SubmitBtnText>Cancel</SubmitBtnText>
+          </SubmitBtn>
             </View>
           </View>
         </Modal>

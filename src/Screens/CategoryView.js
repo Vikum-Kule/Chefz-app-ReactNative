@@ -150,7 +150,7 @@ const CategoryView = ({route, navigation}) =>{
                   userId,
                   username,
                   userImg:
-                    'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+                    'https://cdn-icons-png.flaticon.com/512/149/149071.png',
                   postTime: "2021-10-14",
                   postTitle,
                   postImg,

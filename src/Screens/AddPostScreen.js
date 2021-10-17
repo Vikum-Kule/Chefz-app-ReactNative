@@ -281,6 +281,7 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular"
   },
   scrollView:{
-    width:"100%"
+    width:"100%",
+    marginBottom:70,
   }
 });

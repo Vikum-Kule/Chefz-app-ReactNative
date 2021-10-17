@@ -7,7 +7,9 @@ import {
   StyleSheet,
   ScrollView,
   SafeAreaView,
-  FlatList
+  FlatList,
+  Alert,
+  RefreshControl
 } from 'react-native';
 import FormButton from '../components/FormButton';
 import {AuthContext} from '../Auth/AuthProvider';
@@ -22,6 +24,14 @@ const ProfileScreen = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [deleted, setDeleted] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [refreshing, setRefreshing] = React.useState(false);
+
+
+  
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    fetchPosts();
+  }, [refreshing]);
 
   
 
@@ -66,7 +76,7 @@ const ProfileScreen = ({navigation, route}) => {
       if (loading) {
         setLoading(false);
       }
-
+      setRefreshing(false);
       console.log('Posts: ', posts);
     } catch (e) {
       console.log(e);
@@ -231,13 +241,15 @@ const ProfileScreen = ({navigation, route}) => {
                             <PostCard 
                             item={item}
                             onDelete={handleDelete}
-                            addFavorite={addFavorite}
                             />
                         </TouchableOpacity>
                         
                     }
                     style={styles.scrollCards}
                     keyExtractor={item=> item.id}
+                    refreshControl={
+                      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
                 />
 
         {/* {posts.map((item) => (

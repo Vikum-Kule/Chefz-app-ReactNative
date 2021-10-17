@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect} from "react";
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, FlatList, Alert} from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, FlatList, Alert, RefreshControl} from 'react-native';
 import FormButton from "../components/FormButton";
 import { Container, UserInfo, UserImg, Card, UserName, UserInfoText, PostDate, PostTitle, PostImg } from "../styles/homeStyles";
 import Swiper from 'react-native-swiper';
@@ -18,6 +18,13 @@ const HomeScreen = ({navigation}) =>{
     const [posts, setPosts] = useState(null);
     const [loading, setLoading] = useState(true);
     const [deleted, setDeleted] = useState(false);
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    fetchPosts();
+  }, [refreshing]);
 
 
     const fetchPosts = async () => {
@@ -65,7 +72,7 @@ const HomeScreen = ({navigation}) =>{
           if (loading) {
             setLoading(false);
           }
-    
+          setRefreshing(false);
           console.log('Posts: ', posts);
         } catch (e) {
           console.log(e);
@@ -290,13 +297,15 @@ const HomeScreen = ({navigation}) =>{
                             <PostCard 
                             item={item}
                             onDelete={handleDelete}
-                            addFavorite={addFavorite}
                             />
                         </TouchableOpacity>
                         
                     }
                     style={styles.scrollCards}
                     keyExtractor={item=> item.id}
+                    refreshControl={
+                      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
                 />
             {/* <ScrollView style={styles.scrollCards}>
                 <FlatList 
