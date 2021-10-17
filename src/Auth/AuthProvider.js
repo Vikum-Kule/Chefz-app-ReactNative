@@ -1,5 +1,8 @@
 import React, {createContext, useState} from "react";
 import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
+
 
 export const AuthContext = createContext();
 
@@ -19,24 +22,26 @@ export const AuthProvider = ({children}) =>{
                 },
                 register: async(username,email, password)=>{
                     try {
-                        
+                        // const credential =await auth().createUserWithEmailAndPassword(email, password);
+                        // const {uid} = credential;
+                        // console.log(uid);
+                        // // your data here (dont forget to store the uid on the document)
+                        // const user = {
+                        //     username: username,
+                        //     phone:'',
+                        //     userId: uid,
+                        // };
+                        // await firestore().collection('users').doc(uid).set(user);
                         await auth().createUserWithEmailAndPassword(email, password).then((authData)=>{
-                            let account = {}
-                            account.email = email.toLowerCase()
-                            account.uid = authData.uid
-                            account.username = username
-                            firebase.database().ref('users/' + authData.uid).set({
-                                account
-                            }).then(() => {
-                                // ******** Now we need to grap a snapshot from the DB to validate account creation and update the redux store locally ********
-                                firebase.database().ref('users/' + authData.uid).once('value').then(function (snapshot) {
-                                    let updatedUser = snapshot.val();
-                                }).then(() => {
-                                    dispatch(userSet(updatedUser));
+                            console.log(authData.user.uid);
 
-                                })
-                            })
-                        });
+                            const user = {
+                            username: username,
+                            phone:'',
+                            userId: authData.user.uid,
+                        };
+                        firestore().collection('users').doc(authData.user.uid).set(user);
+                       });
                         
                       } catch (e) {
                         console.log(e);

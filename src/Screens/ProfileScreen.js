@@ -23,6 +23,8 @@ const ProfileScreen = ({navigation, route}) => {
   const [deleted, setDeleted] = useState(false);
   const [userData, setUserData] = useState(null);
 
+  
+
   const fetchPosts = async () => {
     try {
       const list = [];
@@ -42,13 +44,14 @@ const ProfileScreen = ({navigation, route}) => {
                 postTime,
                 category,
                 description,
+                username
             } = doc.data();
             list.push({
               id: doc.id,
               userId,
-              userName: 'Test Name',
+              username,
               userImg:
-                'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+                'https://cdn-icons-png.flaticon.com/512/149/149071.png',
               postTime: "2021-10-14",
               postTitle,
               postImg,
@@ -71,11 +74,13 @@ const ProfileScreen = ({navigation, route}) => {
   };
 
   const getUser = async() => {
+    console.log("Hello");
     await firestore()
     .collection('users')
-    .doc( route.params ? route.params.userId : user.uid)
+    .doc(user.uid)
     .get()
     .then((documentSnapshot) => {
+      console.log('User Data', documentSnapshot);
       if( documentSnapshot.exists ) {
         console.log('User Data', documentSnapshot.data());
         setUserData(documentSnapshot.data());
@@ -101,10 +106,10 @@ const ProfileScreen = ({navigation, route}) => {
           style={styles.userImg}
           source={{uri: userData ? userData.userImg || 'https://cdn-icons-png.flaticon.com/512/149/149071.png' : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}}
         />
-        <Text style={styles.userName}>{userData ? userData.fname || 'Test' : 'Test'} {userData ? userData.lname || 'User' : 'User'}</Text>
+        <Text style={styles.userName}>{userData != null?userData.username : ""}</Text>
         {/* <Text>{route.params ? route.params.userId : user.uid}</Text> */}
         <Text style={styles.aboutUser}>
-        {userData ? userData.about || 'No details added.' : ''}
+        {userData ? "Phone: "+userData.phone || 'No details added.' : ''}
         </Text>
         <View style={styles.userBtnWrapper}>
           {route.params ? (

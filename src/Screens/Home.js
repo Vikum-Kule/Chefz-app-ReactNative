@@ -8,14 +8,18 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import PostCard from "../components/PostCard";
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
+import { AuthContext } from '../Auth/AuthProvider';
 
 
 
 
 const HomeScreen = ({navigation}) =>{
+  const {user, logout} = useContext(AuthContext);
     const [posts, setPosts] = useState(null);
     const [loading, setLoading] = useState(true);
     const [deleted, setDeleted] = useState(false);
+
+
     const fetchPosts = async () => {
         try {
           const list = [];
@@ -28,8 +32,10 @@ const HomeScreen = ({navigation}) =>{
               // console.log('Total Posts: ', querySnapshot.size);
     
               querySnapshot.forEach((doc) => {
+                
                 const {
                     userId,
+                    username,
                     postTitle,
                     postImg,
                     postTime,
@@ -41,9 +47,9 @@ const HomeScreen = ({navigation}) =>{
                 list.push({
                   id: doc.id,
                   userId,
-                  userName: 'Test Name',
+                  username,
                   userImg:
-                    'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+                    'https://cdn-icons-png.flaticon.com/512/149/149071.png',
                   postTime: "2021-10-14",
                   postTitle,
                   postImg,
@@ -76,27 +82,59 @@ const HomeScreen = ({navigation}) =>{
       }, [deleted]);
 
       const addFavorite = (postId, value)=>{
-        console.log(postId+" "+ value);
-        firestore()
-          .collection('posts')
+        console.log(user.username);
+        if(value){
+          firestore()
+          .collection('favorite')
           .doc(postId)
-          .update({'favorite': !value})
+          .delete()
           .then(() => {
-            if (!value){
-              Alert.alert(
-                'Post added to favorite list',
-              );
-            }
-            else{
-              Alert.alert(
-                'Post Removed from favorite list',
-                
-              );
-            }
-            
-            fetchPosts();
+            Alert.alert(
+              'Post Removed from favorite list',
+            );
+            setDeleted(true);
           })
-          .catch((e) => console.log('something went wrong.', e));
+          .catch((e) => console.log('Error deleting .', e));
+        }
+        else{
+          firestore()
+          .collection('favorite')
+          .add({
+            userId: user.uid,
+            postId: postId,
+          })
+          .then(() => {
+            console.log('Post Added!');
+            Alert.alert(
+              'Post added to favorite list',
+            );
+          })
+          .catch((error) => {
+            console.log('Something went wrong .', error);
+          });
+        }
+        
+
+        // firestore()
+        //   .collection('posts')
+        //   .doc(postId)
+        //   .update({'favorite': !value})
+        //   .then(() => {
+        //     if (!value){
+        //       Alert.alert(
+        //         'Post added to favorite list',
+        //       );
+        //     }
+        //     else{
+        //       Alert.alert(
+        //         'Post Removed from favorite list',
+                
+        //       );
+        //     }
+            
+        //     fetchPosts();
+        //   })
+        //   .catch((e) => console.log('something went wrong.', e));
       }
 
       const handleDelete = (postId) => {
@@ -264,7 +302,7 @@ const HomeScreen = ({navigation}) =>{
                         ({item})=> 
                         <TouchableOpacity
                         onPress={() => {
-                            /* 1. Navigate to the Details route with params */
+                            console.log(item.username);
                             navigation.navigate('PostView', {
                                 item:item
                             });}}

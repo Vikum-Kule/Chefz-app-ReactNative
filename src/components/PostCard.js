@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import { Container, 
     UserInfo, 
     UserImg, 
@@ -15,6 +15,9 @@ import { Container,
     import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, FlatList} from 'react-native';
 import { AuthContext } from "../Auth/AuthProvider";
 
+import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
+
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImageProgress from './ImageProgress';
@@ -28,7 +31,33 @@ const PostCard = ({item, onDelete, addFavorite}) => {
     const likeIcon = item.favorite ? 'heart' : 'heart-outline';
     const likeIconColor = item.favorite ? '#2e64e5' : '#333';
   
-    
+    // const checkFavorite = async () => {
+    //   try {
+    //     const list = [];
+    //     console.log("Hello");
+    //     await firestore()
+    //       .collection('favorite')
+    //       .where('postId', '==', item.id && 'userId', '==', user.uid)
+    //       .get()
+    //       .then((querySnapshot) => {
+    //           if(!querySnapshot.empty){
+    //             console.log("Exist");
+    //               setFavorite(true);
+    //           }
+    //           else{
+    //               setFavorite(false);
+    //           }
+    //       });
+  
+  
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // };
+
+    // useEffect(() => {
+    //   checkFavorite();
+    // }, []);
   
   
     return(
@@ -36,7 +65,7 @@ const PostCard = ({item, onDelete, addFavorite}) => {
                     <UserInfo>
                         <UserImg source={{uri: item.userImg}} />
                         <UserInfoText>
-                            <UserName>{item.userName}</UserName>
+                            <UserName>{item.username ? item.username || 'Kamal Kumara' : ''}</UserName>
                             <PostDate>{item.postTime}</PostDate>
                         </UserInfoText>
                     </UserInfo>

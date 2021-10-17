@@ -11,6 +11,7 @@ import ProfileScreen from '../Screens/ProfileScreen';
 import PostView from '../Screens/PostView';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FavoriteList from '../Screens/FavoriteList';
+import EditProfile from '../Screens/EditProfile';
 
 
 const Stack = createStackNavigator();
@@ -146,9 +147,9 @@ const Profile = ({navigation}) => (
         headerShown: false,
       }}
     />
-    {/* <Stack.Screen
+    <Stack.Screen
       name="EditProfile"
-      component={EditProfileScreen}
+      component={EditProfile}
       options={{
         headerTitle: 'Edit Profile',
         headerBackTitleVisible: false,
@@ -159,7 +160,7 @@ const Profile = ({navigation}) => (
           elevation: 0,
         },
       }}
-    /> */}
+    />
   </Stack.Navigator>
 );
 
@@ -177,8 +178,12 @@ const AppStack = () => {
 
     return(
       <Tab.Navigator
+        // tabBarOptions={{
+        //   s
+        // }}
+
       screenOptions={{
-        activeTintColor: '#2e64e5',
+        activeTintColor: '#f45c43',
       }}>
       <Tab.Screen
         name="Home"

@@ -1,4 +1,4 @@
-import React, {useState, useContext, setState} from 'react';
+import React, {useState, useContext, setState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -35,6 +35,28 @@ const AddPostScreen = () => {
   const [postTitle, setpostTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [category, setCategory] = useState(null);
+  
+  const [userData, setUserData] = useState(null);
+
+  const getUser = async() => {
+    console.log(user.uid);
+    await firestore()
+    .collection('users')
+    .doc(user.uid)
+    .get()
+    .then((documentSnapshot) => {
+      console.log('User Data', documentSnapshot);
+      if( documentSnapshot.exists ) {
+        console.log('User Data', documentSnapshot.data());
+        setUserData(documentSnapshot.data());
+      }
+    })
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
 
   const SetCategory = (item) =>{
       setCategory(item.value)
@@ -73,6 +95,7 @@ const AddPostScreen = () => {
     .collection('posts')
     .add({
       userId: user.uid,
+      username:userData.username,
       postTitle: postTitle,
       postImg: imageUrl,
       postTime: firestore.Timestamp.fromDate(new Date()),

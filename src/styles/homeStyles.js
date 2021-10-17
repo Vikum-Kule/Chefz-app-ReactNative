@@ -66,7 +66,7 @@ export const Divider = styled.View`
     border-bottom-width: 1px;
     width: 92%;
     align-self: center;
-    margin-top: 15px;
+    margin-top: 2px;
 `;
 
 export const InteractionWrapper = styled.View`
