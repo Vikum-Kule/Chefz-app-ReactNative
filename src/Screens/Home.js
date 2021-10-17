@@ -245,7 +245,7 @@ const HomeScreen = ({navigation}) =>{
                      onPress={() => {
                         /* 1. Navigate to the Details route with params */
                         navigation.navigate('CategoryView', {
-                          category: 'Noodls',
+                          category: 'Noodles',
                         });}}>
                         <View style={styles.category}>
                             <Text style={styles.Categorytext}>Noodls</Text>
@@ -265,7 +265,7 @@ const HomeScreen = ({navigation}) =>{
                     onPress={() => {
                         /* 1. Navigate to the Details route with params */
                         navigation.navigate('CategoryView', {
-                          category: 'Juices',
+                          category: 'Juice',
                         });}}>
                         <View style={styles.category}>
                             <Text style={styles.Categorytext}>Juices</Text>

@@ -177,8 +177,9 @@ const AddPostScreen = () => {
             items={[
                 {label: 'Rice', value: 'Rice'},
                 {label: 'Noodles', value: 'Noodles'},
-                {label: 'Sweet', value: 'Sweet'},
                 {label: 'Desserts', value: 'Desserts'},
+                {label: 'Juice', value: 'Juice'},
+                {label: 'Other', value: 'Other'},
             ]}
             defaultValue={category}
             containerStyle={{height: 40, width: "92%", borderRadius: 8}}
